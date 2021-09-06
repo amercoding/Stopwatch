@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Simple setInterval clock</title>
+    <style>
+      p {
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="clock">00:00:00</p>
+    <button class="start_button">Start</button>
+    <button class="stop_button">Stop</button>
+    <button class="reset_button">Reset</button>
+    <script>
+      function formatTime(i) {
+        if (i < 10) {
+        i = "0" + i;
+        }
+        return i;
+     }
+      function displayTime(showTime) {
+        t+=1;
+        let hours = Math.floor(t/3600);
+        hours = formatTime(hours);
+        let minutes = Math.floor((t - hours*3600)/60);
+        minutes = formatTime(minutes);
+        let seconds = t - minutes*60 - hours*3600;
+        seconds = formatTime(seconds);
+        document.querySelector('.clock').textContent = hours + ":" + minutes + ":" + seconds;
+      }
+      let t=0;
+      let createClock;
+      let btnStart = document.querySelector('.start_button');
+      let btnStop = document.querySelector('.stop_button');
+      let btnReset = document.querySelector('.reset_button');
+      btnStop.disabled = true;
+      btnReset.disabled = true;
+
+      btnStart.addEventListener('click', () => {
+          btnStart.disabled = true;
+          btnStop.disabled = false;
+          btnReset.disabled = false;
+          createClock = setInterval(displayTime, 1000);
+        })
+        btnStop.addEventListener('click', () => {
+          btnStart.disabled = false;
+          btnStop.disabled = true;
+          clearInterval(createClock);
+        })
+        btnReset.addEventListener('click', () => {
+          btnStart.disabled = false;
+          btnStop.disabled = true;
+          btnReset.disabled = true;
+          clearInterval(createClock);
+          t=0;
+          document.querySelector('.clock').textContent = "00:00:00";
+        })
+      
+
+
+    </script>
+  </body>
+</html>
